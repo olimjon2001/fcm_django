@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-messaging.js"></script>
+{#    <script src="/static/js/firebase-messaging.js"></script>#}
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBUZSfVyCsCbpDAfRToAq4xycnNi_MiLTY",
+            authDomain: "djangofcm-ffc7c.firebaseapp.com",
+            projectId: "djangofcm-ffc7c",
+            storageBucket: "djangofcm-ffc7c.appspot.com",
+            messagingSenderId: "263624503376",
+            appId: "1:263624503376:web:3461f9a997fea6ed042155",
+            measurementId: "G-LCZ9KETX5T"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        const messaging = firebase.messaging();
+        console.log(messaging.getToken())
+        messaging.getToken({vapidKey: 'BB0HtfsCtBwdwyA1-PZnqUbYwbzNtSQc1XoK3bixQ5Y7jUqDaInXNVRtjzU0qNakpa_sW6cUtpjUULJa08DNIMA'}).then((currentToken) => {
+            if (currentToken) {
+
+                console.log(currentToken)
+            } else {
+                console.log('No registration token available. Request permission to generate one.');
+
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+        });
+
+
+        messaging
+            .requestPermission()
+            .then(function () {
+                console.log("Notification permission granted.");
+                return messaging.getToken()
+            })
+            .catch(function (err) {
+                console.log("Unable to get permission to notify.", err);
+            });
+
+
+        messaging.onMessage((payload) => {
+            console.log('Message received. ', payload);
+
+        });
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
